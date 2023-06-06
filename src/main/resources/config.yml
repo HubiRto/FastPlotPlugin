@@ -4,3 +4,7 @@ database:
   username: "root"
   password: "password"
   database: "mc"
+#Typy zapisu:
+#  - database (w przypadku posiadania bazy danych)
+#  - file (w przypadku chęci zapisu do pliku lub braku bazy danych)
+data_storage_type: "database"

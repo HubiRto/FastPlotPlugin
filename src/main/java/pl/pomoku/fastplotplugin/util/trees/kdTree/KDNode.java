@@ -1,7 +1,9 @@
-package pl.pomoku.fastplotplugin.util.trees;
+package pl.pomoku.fastplotplugin.util.trees.kdTree;
 
-import pl.pomoku.fastplotplugin.entity.Plot;
+import lombok.Data;
+import pl.pomoku.fastplotplugin.util.Plot;
 
+@Data
 public class KDNode {
     private Plot plot;
     private KDNode left;
