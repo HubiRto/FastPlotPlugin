@@ -10,7 +10,6 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 public class Plot {
-    private int id;
     private Square boundary;
     private String ownerName;
     private String ownerUUID;

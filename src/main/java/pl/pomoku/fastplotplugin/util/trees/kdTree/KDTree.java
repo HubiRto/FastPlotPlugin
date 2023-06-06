@@ -28,26 +28,6 @@ public class KDTree {
         return node;
     }
 
-    public boolean checkOverlap(Plot plot) {
-        return checkOverlap(root, plot);
-    }
-
-    private boolean checkOverlap(KDNode node, Plot plot) {
-        if (node == null) return false;
-        if (isOverlap(node.getPlot().getBoundary(), plot.getBoundary())) return true;
-        int currentDimension = node.getDepth() % DIMENSION;
-
-        if (compare(plot, node.getPlot(), currentDimension) < 0) {
-            return checkOverlap(node.getLeft(), plot);
-        } else {
-            return checkOverlap(node.getRight(), plot);
-        }
-    }
-
-    private boolean isOverlap(Square squareA, Square squareB) {
-        return squareA.intersects(squareB);
-    }
-
     public Plot search(Point2D point) {
         return search(root, point);
     }

@@ -10,7 +10,7 @@ import java.util.List;
 public class QuadTree {
     private static final int MAX_CAPACITY = 4;
     private final Square boundary;
-    private final List<Plot> plots;
+    private final List<Square> plots;
     private QuadTree[] children;
 
     public QuadTree(Square boundary) {
@@ -19,15 +19,11 @@ public class QuadTree {
         this.children = null;
     }
 
-    public void addPlot(Plot plot) {
-        if (!this.boundary.contains(plot.getBoundary())) {
-            System.out.println("Działka " + plot.getName() + " znajduje się poza granicami mapy.");
-            return;
-        }
-
+    public void addPlot(Square plot) {
+        if (!this.boundary.contains(plot)) return;
         if (children != null) {
             for (QuadTree child : children) {
-                if (child.isInsideBoundary(plot.getBoundary())) {
+                if (child.isInsideBoundary(plot)) {
                     child.addPlot(plot);
                     return;
                 }
@@ -41,7 +37,7 @@ public class QuadTree {
         }
     }
 
-    public void removePlot(Plot plot) {
+    public void removePlot(Square plot) {
         plots.remove(plot);
         if (children != null) {
             for (QuadTree child : children) {
@@ -51,8 +47,8 @@ public class QuadTree {
     }
 
     public boolean checkPlotOverlap(Plot plot) {
-        for (Plot existingPlot : plots) {
-            if (isPlotOverlap(existingPlot.getBoundary(), plot.getBoundary())) {
+        for (Square existingPlot : plots) {
+            if (isPlotOverlap(existingPlot, plot.getBoundary())) {
                 return true;
             }
         }
@@ -72,28 +68,6 @@ public class QuadTree {
         return square1.intersects(square2);
     }
 
-    public Plot findPlot(Point2D point) {
-        if (!this.boundary.contains(point)) {
-            return null;
-        }
-
-        for (Plot plot : plots) {
-            if (plot.getBoundary().contains(point)) {
-                return plot;
-            }
-        }
-
-        if (children != null) {
-            for (QuadTree child : children) {
-                Plot foundPlot = child.findPlot(point);
-                if (foundPlot != null) {
-                    return foundPlot;
-                }
-            }
-        }
-
-        return null;
-    }
 
     private void split() {
         int centerX = boundary.getLeftTop().getX() + (boundary.getRightBottom().getX() - boundary.getLeftTop().getX()) / 2;
@@ -105,9 +79,9 @@ public class QuadTree {
         children[2] = new QuadTree(new Square(new Point2D(boundary.getLeftTop().getX(), centerZ), boundary.getRightBottom()));
         children[3] = new QuadTree(new Square(new Point2D(centerX, centerZ), boundary.getRightBottom()));
 
-        for (Plot plot : plots) {
+        for (Square plot : plots) {
             for (QuadTree child : children) {
-                if (child.isInsideBoundary(plot.getBoundary())) {
+                if (child.isInsideBoundary(plot)) {
                     child.addPlot(plot);
                     break;
                 }

@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import pl.pomoku.fastplotplugin.util.PlotManager;
+import pl.pomoku.fastplotplugin.manages.PlotManager;
 import pl.pomoku.pomokupluginsrepository.commands.EasyCommand;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,30 +13,24 @@ import java.util.Objects;
 
 @Getter
 public final class FastPlotPlugin extends JavaPlugin {
-    private static AnnotationConfigApplicationContext applicationContext;
     public static FastPlotPlugin plugin;
     public static final int MAP_SIZE = 10000;
-    public static PlotManager plotManager = new PlotManager(MAP_SIZE);
-    public static PlotDataService plotDataService;
+    public static PlotManager plotManager;
 
     @Override
     public void onEnable() {
         plugin = this;
         saveDefaultConfig();
 
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-        applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.scan("pl.pomoku.fastplotplugin");
-        applicationContext.refresh();
-
-        plotDataService = (PlotDataService) applicationContext.getBean("plotDataService");
+        plotManager = new PlotManager();
+        plotManager.loadFromBinaryFile();
 
         loadListenersAndCommands();
     }
 
     @Override
     public void onDisable() {
-        applicationContext.close();
+        plotManager.saveToBinaryFile();
     }
 
     private void loadListenersAndCommands() {
