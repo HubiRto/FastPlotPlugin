@@ -1,0 +1,4 @@
+name: FastPlotPlugin
+version: '${project.version}'
+main: pl.pomoku.fastplotplugin.FastPlotPlugin
+api-version: 1.19
