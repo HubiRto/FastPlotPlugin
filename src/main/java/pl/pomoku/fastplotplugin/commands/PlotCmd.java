@@ -9,6 +9,7 @@ import pl.pomoku.pomokupluginsrepository.commands.CommandInfo;
 import pl.pomoku.pomokupluginsrepository.commands.EasyCommand;
 
 import static pl.pomoku.fastplotplugin.FastPlotPlugin.plotManager;
+import static pl.pomoku.fastplotplugin.FastPlotPlugin.plotService;
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 
 @CommandInfo(name = "plot", requiresPlayer = true)
@@ -18,6 +19,10 @@ public class PlotCmd extends EasyCommand {
         if(args.length == 2) {
             if(args[0].equals("create")){
 
+                if(plotService.existsByOwnerUUID(p.getUniqueId().toString())){
+                    p.sendMessage(strToComp("<red>Nie możesz stworzyć działki. Posiadasz już działkę."));
+                    return;
+                }
 
                 Square plotBoundary = Square.createByPlayerLocation(p.getLocation());
                 if(plotManager.checkPlotOverlap(plotBoundary)){
@@ -39,10 +44,5 @@ public class PlotCmd extends EasyCommand {
                 p.sendMessage(strToComp("<green>Pomyślnie stworzono działkę."));
             }
         }
-    }
-
-
-    private Square squareFromPoint(Location location){
-        return new Square(new Point2D((int) location.getX(), (int) location.getZ()), 50);
     }
 }

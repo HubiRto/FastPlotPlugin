@@ -23,4 +23,7 @@ public class PlotService {
     public void update(Plot plot) {
         plotRepository.save(plot);
     }
+    public boolean existsByOwnerUUID(String ownerUUID) {
+        return plotRepository.existsByOwnerUUID(ownerUUID);
+    }
 }

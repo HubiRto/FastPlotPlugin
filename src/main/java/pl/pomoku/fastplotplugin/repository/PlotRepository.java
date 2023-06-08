@@ -7,4 +7,5 @@ import pl.pomoku.fastplotplugin.entity.Plot;
 public interface PlotRepository extends JpaRepository<Plot, Long> {
     @Query(value = "select max(id) from Plot")
     int getMaxId();
+    boolean existsByOwnerUUID(String ownerUUID);
 }

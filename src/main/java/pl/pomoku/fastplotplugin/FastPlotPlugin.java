@@ -1,6 +1,7 @@
 package pl.pomoku.fastplotplugin;
 
 import lombok.Getter;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
@@ -19,6 +20,7 @@ public final class FastPlotPlugin extends JavaPlugin {
     public static final int MAP_SIZE = 10000;
     public static PlotManager plotManager;
     public static PlotService plotService;
+    public static BukkitAudiences audiences;
 
     @Override
     public void onEnable() {
@@ -31,8 +33,8 @@ public final class FastPlotPlugin extends JavaPlugin {
         applicationContext.refresh();
 
         plotService = (PlotService) applicationContext.getBean("plotService");
-
         plotManager = new PlotManager();
+        audiences = BukkitAudiences.create(this);
 
         loadListenersAndCommands();
     }
