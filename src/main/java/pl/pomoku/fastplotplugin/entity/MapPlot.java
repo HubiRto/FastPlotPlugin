@@ -1,21 +1,15 @@
-package pl.pomoku.fastplotplugin.util;
+package pl.pomoku.fastplotplugin.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import pl.pomoku.fastplotplugin.util.Square;
 
 @Data
 @ToString
-@Builder
 @AllArgsConstructor
-public class Plot {
+public class MapPlot {
     private Square boundary;
     private String ownerName;
-    private String ownerUUID;
     private String plotName;
-
-    public Plot(Square boundary) {
-        this.boundary = boundary;
-    }
 }

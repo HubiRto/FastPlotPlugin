@@ -1,21 +1,21 @@
 package pl.pomoku.fastplotplugin.util.trees.kdTree;
 
-import pl.pomoku.fastplotplugin.util.Plot;
+import pl.pomoku.fastplotplugin.entity.MapPlot;
 import pl.pomoku.fastplotplugin.util.Point2D;
-import pl.pomoku.fastplotplugin.util.Square;
 
 public class KDTree {
     private static final int DIMENSION = 2;
     private KDNode root;
+
     public KDTree() {
         root = null;
     }
 
-    public void insert(Plot plot) {
+    public void insert(MapPlot plot) {
         root = insert(root, plot, 0);
     }
 
-    private KDNode insert(KDNode node, Plot plot, int depth) {
+    private KDNode insert(KDNode node, MapPlot plot, int depth) {
         if (node == null) return new KDNode(plot, depth);
         int currentDimension = depth % DIMENSION;
 
@@ -28,11 +28,11 @@ public class KDTree {
         return node;
     }
 
-    public Plot search(Point2D point) {
+    public MapPlot search(Point2D point) {
         return search(root, point);
     }
 
-    private Plot search(KDNode node, Point2D point) {
+    private MapPlot search(KDNode node, Point2D point) {
         if (node == null) return null;
         if (node.getPlot().getBoundary().contains(point)) return node.getPlot();
         int currentDimension = node.getDepth() % DIMENSION;
@@ -44,7 +44,7 @@ public class KDTree {
         }
     }
 
-    private int compare(Plot plotA, Plot plotB, int dimension) {
+    private int compare(MapPlot plotA, MapPlot plotB, int dimension) {
         if (dimension == 0) {
             return Integer.compare(plotA.getBoundary().getLeftTop().getX(), plotB.getBoundary().getLeftTop().getX());
         } else {
@@ -60,11 +60,11 @@ public class KDTree {
         }
     }
 
-    public void remove(Plot plot) {
+    public void remove(MapPlot plot) {
         root = remove(root, plot, 0);
     }
 
-    private KDNode remove(KDNode node, Plot plot, int depth) {
+    private KDNode remove(KDNode node, MapPlot plot, int depth) {
         if (node == null) return null;
         int currentDimension = depth % DIMENSION;
 

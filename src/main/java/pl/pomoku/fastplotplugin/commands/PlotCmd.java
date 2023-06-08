@@ -2,7 +2,7 @@ package pl.pomoku.fastplotplugin.commands;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import pl.pomoku.fastplotplugin.util.Plot;
+import pl.pomoku.fastplotplugin.entity.Plot;
 import pl.pomoku.fastplotplugin.util.Point2D;
 import pl.pomoku.fastplotplugin.util.Square;
 import pl.pomoku.pomokupluginsrepository.commands.CommandInfo;
@@ -17,14 +17,24 @@ public class PlotCmd extends EasyCommand {
     public void execute(Player p, String[] args) {
         if(args.length == 2) {
             if(args[0].equals("create")){
-                Plot plot = new Plot(squareFromPoint(p.getLocation()));
-                if(plotManager.checkPlotOverlap(plot)){
+
+
+                Square plotBoundary = Square.createByPlayerLocation(p.getLocation());
+                if(plotManager.checkPlotOverlap(plotBoundary)){
                     p.sendMessage(strToComp("<red>Nie możesz stworzyć działki. Działka nachodzi na inną działkę."));
                     return;
                 }
-                plot.setPlotName(args[1]);
-                plot.setOwnerName(p.getName());
-                plot.setOwnerUUID(p.getUniqueId().toString());
+
+                Plot plot = Plot.builder()
+                        .plotName(args[1])
+                        .ownerName(p.getName())
+                        .ownerUUID(p.getUniqueId().toString())
+                        .topLeftX(plotBoundary.getLeftTop().getX())
+                        .topLeftZ(plotBoundary.getLeftTop().getZ())
+                        .size(50)
+                        .build();
+
+
                 plotManager.addPlot(plot);
                 p.sendMessage(strToComp("<green>Pomyślnie stworzono działkę."));
             }

@@ -1,6 +1,5 @@
 package pl.pomoku.fastplotplugin.util.trees.quadTree;
 
-import pl.pomoku.fastplotplugin.util.Plot;
 import pl.pomoku.fastplotplugin.util.Point2D;
 import pl.pomoku.fastplotplugin.util.Square;
 
@@ -46,16 +45,16 @@ public class QuadTree {
         }
     }
 
-    public boolean checkPlotOverlap(Plot plot) {
+    public boolean checkPlotOverlap(Square square) {
         for (Square existingPlot : plots) {
-            if (isPlotOverlap(existingPlot, plot.getBoundary())) {
+            if (isPlotOverlap(existingPlot, square)) {
                 return true;
             }
         }
 
         if (children != null) {
             for (QuadTree child : children) {
-                if (child.checkPlotOverlap(plot)) {
+                if (child.checkPlotOverlap(square)) {
                     return true;
                 }
             }
@@ -70,14 +69,14 @@ public class QuadTree {
 
 
     private void split() {
-        int centerX = boundary.getLeftTop().getX() + (boundary.getRightBottom().getX() - boundary.getLeftTop().getX()) / 2;
-        int centerZ = boundary.getLeftTop().getZ() + (boundary.getRightBottom().getZ() - boundary.getLeftTop().getZ()) / 2;
+        int centerX = boundary.getLeftTop().getX() + boundary.getSize();
+        int centerZ = boundary.getLeftTop().getZ() + boundary.getSize();
 
         children = new QuadTree[4];
-        children[0] = new QuadTree(new Square(boundary.getLeftTop(), new Point2D(centerX, centerZ)));
-        children[1] = new QuadTree(new Square(new Point2D(centerX, boundary.getLeftTop().getZ()), new Point2D(boundary.getRightBottom().getX(), centerZ)));
-        children[2] = new QuadTree(new Square(new Point2D(boundary.getLeftTop().getX(), centerZ), boundary.getRightBottom()));
-        children[3] = new QuadTree(new Square(new Point2D(centerX, centerZ), boundary.getRightBottom()));
+        children[0] = new QuadTree(new Square(boundary.getLeftTop(), boundary.getSize() / 2));
+        children[1] = new QuadTree(new Square(new Point2D(centerX, boundary.getLeftTop().getZ()), boundary.getSize() / 2));
+        children[2] = new QuadTree(new Square(new Point2D(boundary.getLeftTop().getX(), centerZ), boundary.getSize() / 2));
+        children[3] = new QuadTree(new Square(new Point2D(centerX, centerZ), boundary.getSize() / 2));
 
         for (Square plot : plots) {
             for (QuadTree child : children) {
