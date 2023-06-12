@@ -6,6 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import pl.pomoku.fastplotplugin.managers.PlayerOnPlotManager;
+import pl.pomoku.fastplotplugin.managers.PlotBossBarManager;
 import pl.pomoku.fastplotplugin.managers.PlotManager;
 import pl.pomoku.fastplotplugin.services.PlotService;
 import pl.pomoku.pomokupluginsrepository.commands.EasyCommand;
@@ -17,6 +19,8 @@ import java.util.Objects;
 public final class FastPlotPlugin extends JavaPlugin {
     private static AnnotationConfigApplicationContext applicationContext;
     public static FastPlotPlugin plugin;
+    public static PlayerOnPlotManager playerOnPlotManager;
+    public static PlotBossBarManager plotBossBarManager;
     public static PlotManager plotManager;
     public static PlotService plotService;
     public static BukkitAudiences audiences;
@@ -35,6 +39,10 @@ public final class FastPlotPlugin extends JavaPlugin {
 
         plotManager = new PlotManager();
         plotManager.loadFromDatabase();
+
+        playerOnPlotManager = new PlayerOnPlotManager();
+        plotBossBarManager = new PlotBossBarManager();
+
         audiences = BukkitAudiences.create(this);
 
         loadListenersAndCommands();
