@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import pl.pomoku.fastplotplugin.entity.MapPlot;
+import pl.pomoku.fastplotplugin.entity.TreePlot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +17,10 @@ import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 
 public class PlayerMove implements Listener {
     private final Map<Player, BossBar> bossBars = new HashMap<>();
+
     @EventHandler
     public void move(PlayerMoveEvent event) {
-        MapPlot plot = plotManager.searchPlot(event.getPlayer());
+        TreePlot plot = plotManager.serachPlot(event.getPlayer().getLocation());
         Audience audience = audiences.sender(event.getPlayer());
 
         if (plot != null) {

@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import pl.pomoku.fastplotplugin.manages.PlotManager;
+import pl.pomoku.fastplotplugin.managers.PlotManager;
 import pl.pomoku.fastplotplugin.services.PlotService;
 import pl.pomoku.pomokupluginsrepository.commands.EasyCommand;
 
@@ -17,7 +17,6 @@ import java.util.Objects;
 public final class FastPlotPlugin extends JavaPlugin {
     private static AnnotationConfigApplicationContext applicationContext;
     public static FastPlotPlugin plugin;
-    public static final int MAP_SIZE = 10000;
     public static PlotManager plotManager;
     public static PlotService plotService;
     public static BukkitAudiences audiences;
@@ -33,7 +32,9 @@ public final class FastPlotPlugin extends JavaPlugin {
         applicationContext.refresh();
 
         plotService = (PlotService) applicationContext.getBean("plotService");
+
         plotManager = new PlotManager();
+        plotManager.loadFromDatabase();
         audiences = BukkitAudiences.create(this);
 
         loadListenersAndCommands();

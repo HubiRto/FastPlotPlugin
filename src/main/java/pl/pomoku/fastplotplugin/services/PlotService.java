@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.pomoku.fastplotplugin.entity.Plot;
 import pl.pomoku.fastplotplugin.repository.PlotRepository;
 
+import java.util.List;
+
 @Service("plotService")
 @RequiredArgsConstructor
 public class PlotService {
@@ -25,5 +27,12 @@ public class PlotService {
     }
     public boolean existsByOwnerUUID(String ownerUUID) {
         return plotRepository.existsByOwnerUUID(ownerUUID);
+    }
+    public Plot findByOwnerUUID(String ownerUUID) {
+        return plotRepository.findByOwnerUUID(ownerUUID);
+    }
+
+    public List<Plot> findAll() {
+        return plotRepository.findAll();
     }
 }

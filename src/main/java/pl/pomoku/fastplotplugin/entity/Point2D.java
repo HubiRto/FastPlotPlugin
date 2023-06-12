@@ -1,9 +1,11 @@
-package pl.pomoku.fastplotplugin.util;
+package pl.pomoku.fastplotplugin.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Point2D {
     private int x;
