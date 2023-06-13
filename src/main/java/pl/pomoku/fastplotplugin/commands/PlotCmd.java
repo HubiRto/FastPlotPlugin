@@ -18,10 +18,10 @@ public class PlotCmd extends EasyCommand {
         if (args.length == 2) {
             if (args[0].equals("create")) {
 
-//                if (plotService.existsByOwnerUUID(p.getUniqueId().toString())) {
-//                    p.sendMessage(strToComp("<red>Nie możesz stworzyć działki. Posiadasz już działkę."));
-//                    return;
-//                }
+                if (plotService.existsByOwnerUUID(p.getUniqueId().toString())) {
+                    p.sendMessage(strToComp("<red>Nie możesz stworzyć działki. Posiadasz już działkę."));
+                    return;
+                }
 
                 Location loc = p.getLocation();
 

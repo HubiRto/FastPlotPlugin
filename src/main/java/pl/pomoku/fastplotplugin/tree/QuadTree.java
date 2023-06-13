@@ -41,13 +41,15 @@ public class QuadTree {
     }
 
     public void removePlot(TreePlot plot) {
-        plots.remove(plot);
+
+        plots.removeIf(existingPlot -> existingPlot.getBoundary().equals(plot.getBoundary()));
         if (children != null) {
             for (QuadTree child : children) {
                 child.removePlot(plot);
             }
         }
     }
+
 
     public boolean checkPlotOverlap(Square plot) {
         for (TreePlot existingPlot : plots) {

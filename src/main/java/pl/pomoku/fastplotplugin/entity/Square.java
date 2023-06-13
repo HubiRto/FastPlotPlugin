@@ -3,9 +3,13 @@ package pl.pomoku.fastplotplugin.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class Square {
     private Point2D topLeft;
@@ -45,5 +49,19 @@ public class Square {
     public boolean isOverlap(Square square) {
         return contains(square.getTopLeft()) || contains(square.getBottomRight())
                 || contains(square.getTopRight()) || contains(square.getBottomLeft());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return size == square.size &&
+                Objects.equals(topLeft, square.topLeft);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(topLeft, size);
     }
 }

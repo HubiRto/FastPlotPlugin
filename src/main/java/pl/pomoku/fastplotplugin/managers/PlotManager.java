@@ -22,11 +22,20 @@ public class PlotManager {
     }
 
     public void addPlot(Plot plot){
+        System.out.println();
+        System.out.println(convertFromPlot(plot));
+        System.out.println(plot);
+        System.out.println();
+
         quadTree.insert(convertFromPlot(plot));
         plotService.addPlot(plot);
     }
 
     public void removePlot(Plot plot){
+        System.out.println();
+        System.out.println(convertFromPlot(plot));
+        System.out.println(plot);
+        System.out.println();
         quadTree.removePlot(convertFromPlot(plot));
         plotService.removePlot(plot);
     }
