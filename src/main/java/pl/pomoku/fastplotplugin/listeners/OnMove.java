@@ -22,11 +22,13 @@ public class OnMove implements Listener {
         if(serachPlot != null){
             //Wszedł na działkę
             if(!playerOnPlotManager.isPlayerOnPlot(event.getPlayer())){
+                System.out.println("Wszedł na działkę");
                 playerOnPlotManager.addPlayer(event.getPlayer(), serachPlot);
                 Bukkit.getPluginManager().callEvent(new PlayerEntersPlotEvent(event.getPlayer(), serachPlot));
             }else {
                 //Zmienił działkę
                 if(!playerOnPlotManager.getPlot(player).equals(serachPlot)){
+                    System.out.println("Zmienił działkę");
                     Bukkit.getPluginManager().callEvent(new PlayerChangePlotEvent(player, playerOnPlotManager.getPlot(player), serachPlot));
                     playerOnPlotManager.changePlot(player, serachPlot);
                 }
@@ -34,6 +36,7 @@ public class OnMove implements Listener {
         }else {
             //Wyszedł z działki
             if(playerOnPlotManager.isPlayerOnPlot(event.getPlayer())){
+                System.out.println("Wyszedł z działki");
                 playerOnPlotManager.removePlayer(event.getPlayer());
                 Bukkit.getPluginManager().callEvent(new PlayerExitThePlotEvent(player, playerOnPlotManager.getPlot(player)));
             }

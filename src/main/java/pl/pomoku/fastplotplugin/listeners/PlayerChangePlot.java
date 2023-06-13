@@ -19,8 +19,8 @@ public class PlayerChangePlot implements Listener {
         Player player = event.getPlayer();
         Audience audience = audiences.sender(player);
 
-        TreePlot old = event.getFrom();
-        audience.hideBossBar(plotBossBarManager.getBossBarFromPlot(old));
+        BossBar oldPlotBossBar = plotBossBarManager.getBossBarFromPlayer(player);
+        audience.hideBossBar(oldPlotBossBar);
 
 
         TreePlot newPlot = event.getTo();
