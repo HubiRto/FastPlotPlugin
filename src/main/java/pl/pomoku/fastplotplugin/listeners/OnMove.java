@@ -1,5 +1,6 @@
 package pl.pomoku.fastplotplugin.listeners;
 
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,35 +11,38 @@ import pl.pomoku.fastplotplugin.listeners.customEvents.PlayerChangePlotEvent;
 import pl.pomoku.fastplotplugin.listeners.customEvents.PlayerEntersPlotEvent;
 import pl.pomoku.fastplotplugin.listeners.customEvents.PlayerExitThePlotEvent;
 
-import static pl.pomoku.fastplotplugin.FastPlotPlugin.playerOnPlotManager;
-import static pl.pomoku.fastplotplugin.FastPlotPlugin.plotManager;
+import static pl.pomoku.fastplotplugin.FastPlotPlugin.*;
 
 public class OnMove implements Listener {
     @EventHandler
-    public void move(PlayerMoveEvent event){
+    public void move(PlayerMoveEvent event) {
         TreePlot serachPlot = plotManager.serachPlot(event.getPlayer().getLocation());
         Player player = event.getPlayer();
+        Audience audience = audiences.sender(player);
 
-        if(serachPlot != null){
+        if (serachPlot != null) {
             //Wszedł na działkę
-            if(!playerOnPlotManager.isPlayerOnPlot(event.getPlayer())){
+            if (!playerOnPlotManager.isPlayerOnPlot(event.getPlayer())) {
                 System.out.println("Wszedł na działkę");
                 playerOnPlotManager.addPlayer(event.getPlayer(), serachPlot);
-                Bukkit.getPluginManager().callEvent(new PlayerEntersPlotEvent(event.getPlayer(), serachPlot));
-            }else {
+                Bukkit.getPluginManager().callEvent(
+                        new PlayerEntersPlotEvent(player, serachPlot, audience));
+            } else {
                 //Zmienił działkę
-                if(!playerOnPlotManager.getPlot(player).equals(serachPlot)){
+                if (!playerOnPlotManager.getPlot(player).equals(serachPlot)) {
                     System.out.println("Zmienił działkę");
-                    Bukkit.getPluginManager().callEvent(new PlayerChangePlotEvent(player, playerOnPlotManager.getPlot(player), serachPlot));
+                    Bukkit.getPluginManager().callEvent(
+                            new PlayerChangePlotEvent(player, playerOnPlotManager.getPlot(player), serachPlot, audience));
                     playerOnPlotManager.changePlot(player, serachPlot);
                 }
             }
-        }else {
+        } else {
             //Wyszedł z działki
-            if(playerOnPlotManager.isPlayerOnPlot(event.getPlayer())){
+            if (playerOnPlotManager.isPlayerOnPlot(event.getPlayer())) {
                 System.out.println("Wyszedł z działki");
                 playerOnPlotManager.removePlayer(event.getPlayer());
-                Bukkit.getPluginManager().callEvent(new PlayerExitThePlotEvent(player, playerOnPlotManager.getPlot(player)));
+                Bukkit.getPluginManager().callEvent(
+                        new PlayerExitThePlotEvent(player, playerOnPlotManager.getPlot(player), audience));
             }
         }
     }

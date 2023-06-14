@@ -2,6 +2,7 @@ package pl.pomoku.fastplotplugin.listeners.customEvents;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -16,6 +17,7 @@ public class PlayerChangePlotEvent extends Event {
     private Player player;
     private TreePlot from;
     private TreePlot to;
+    private Audience audience;
 
     @Override
     public @NotNull HandlerList getHandlers() {
